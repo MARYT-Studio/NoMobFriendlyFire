@@ -68,6 +68,8 @@ minecraft {
     // Example:
     // injectedTags.put('VERSION', project.version)
     // injectedTags.put('MOD_ID', project.archives_base_name)
+     injectedTags.put('VERSION', project.version)
+     injectedTags.put('MOD_ID', project.archives_base_name)
 }
 
 // Generate a group.archives_base_name.Tags class

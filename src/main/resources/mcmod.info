@@ -1,15 +1,15 @@
 [
 {
-  "modid": "examplemod",
-  "name": "Example Mod",
-  "description": "Example placeholder mod.",
+  "modid": "no_mob_friendly_fire",
+  "name": "NoMobFriendlyFire",
+  "description": "Define your rules, making specific mob types not attack each other.",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "",
+  "url": "https://github.com/MARYT-Studio/NoMobFriendlyFire",
   "updateUrl": "",
-  "authorList": ["CleanroomMC"],
-  "credits": "Authors of this project",
-  "logoFile": "",
+  "authorList": ["MARYT Studio"],
+  "credits": "RisingInIris2017, Lubang-SF",
+  "logoFile": "logo.png",
   "screenshots": [],
   "dependencies": []
 }

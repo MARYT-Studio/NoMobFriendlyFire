@@ -1,20 +1,20 @@
-## TemplateDevEnv
+## NoMobFriendlyFire
 
-Template workspace for modding Minecraft 1.12.2. Licensed under MIT, it is made for public use.
+Simple mod to make A type of mob not to attack B, controlled by configuration file.
 
-This template currently utilizies **Gradle 8.1.1** + **[RetroFuturaGradle](https://github.com/GTNewHorizons/RetroFuturaGradle) 1.3.27** + **Forge 14.23.5.2847**.
+Define your rules like below:
 
-With **coremod and mixin support** that is easy to configure.
+```ini
+minecraft:zombie;minecraft:skeleton;false
+```
 
-### Instructions:
+The last bool determine if the "friendly pair" is mutual.
 
-1. Click `use this template` at the top.
-2. Clone the repository you have created with this template.
-3. In the local repository, run the command `gradlew setupDecompWorkspace`
-4. Open the project folder in IDEA.
-5. Right-click in IDEA `build.gradle` of your project, and select `Link Gradle Project`, after completion, hit `Refresh All` in the gradle tab on the right.
-6. Run `gradlew runClient` and `gradlew runServer`, or use the auto-imported run configurations in IntelliJ like `1. Run Client`.
+For the example above, zombies will not attack skeletons, but the latter may still attack the former.
 
-### Mixins:
+If you set the bool to "true", they will not attack each other. "True" can be omitted.
 
-- When writing Mixins on IntelliJ, it is advisable to use latest [MinecraftDev Fork for RetroFuturaGradle](https://github.com/eigenraven/MinecraftDev/releases).
+```ini
+minecraft:zombie;minecraft:skeleton;true
+minecraft:zombie;minecraft:skeleton
+```
