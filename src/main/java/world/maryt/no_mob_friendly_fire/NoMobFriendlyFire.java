@@ -1,57 +1,25 @@
 package world.maryt.no_mob_friendly_fire;
 
+import com.mojang.logging.LogUtils;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.common.config.Property;
-import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraftforge.fml.config.ModConfig;
+import org.slf4j.Logger;
 import world.maryt.no_mob_friendly_fire.handler.NoMobFriendlyFireHandler;
 
-import java.io.File;
-
-import static world.maryt.no_mob_friendly_fire.config.ConfigParser.parse;
-
-@Mod(modid = NoMobFriendlyFire.MOD_ID, name = NoMobFriendlyFire.NAME, version = NoMobFriendlyFire.VERSION)
+@Mod(NoMobFriendlyFire.MOD_ID)
 public class NoMobFriendlyFire {
-    public static final String MOD_ID = Tags.MOD_ID;
-    public static final String NAME = "NoMobFriendlyFire";
-    public static final String VERSION = Tags.VERSION;
 
-    public static Logger LOGGER = LogManager.getLogger(NAME);
+    public static final String MOD_ID = "no_mob_friendly_fire";
+    public static final Logger LOGGER = LogUtils.getLogger();
 
-    public static String[] FRIENDLY_MOB_LIST;
-    public static boolean DEBUG = false;
+    @SuppressWarnings("removal")
+    public NoMobFriendlyFire() {
+        // Event handlers' registrations must be in the constructor of the main class
+        MinecraftForge.EVENT_BUS.register(NoMobFriendlyFireHandler.class);
 
-    @Mod.EventHandler
-    public void preInit(FMLPreInitializationEvent preEvent) {
-        Configuration config = new Configuration(new File(Loader.instance().getConfigDir(), MOD_ID + ".cfg"));
-        try {
-            config.load();
-            {
-                Property property = config.get(Configuration.CATEGORY_GENERAL, "FriendlyMobList", new String[]{});
-                property.setComment("Format: <Mob A's ID>;<Mob B's ID>;[isMutual, true or false, optional]. Example: minecraft:zombie;minecraft:skeleton;false will make zombie friendly to skeleton, but not vise versa. minecraft:creeper;minecraft:zombie;true will make creeper and zombie not attack each other.");
-                NoMobFriendlyFire.FRIENDLY_MOB_LIST = property.getStringList();
-                property.setShowInGui(false);
-            }
-            {
-                Property property = config.get("Debug", "Debug", false);
-                property.setComment("Enable this for debugging purpose");
-                NoMobFriendlyFire.DEBUG = property.getBoolean();
-                property.setShowInGui(false);
-            }
-            parse(FRIENDLY_MOB_LIST);
-            LOGGER.info("No Mob Friendly Fire - configuration loaded.");
-        } finally {
-            config.save();
-        }
-    }
-
-    @Mod.EventHandler
-    public void init(FMLInitializationEvent event) {
-        MinecraftForge.EVENT_BUS.register(new NoMobFriendlyFireHandler());
+        // Configuration building
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 }

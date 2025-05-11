@@ -1,15 +1,31 @@
 package world.maryt.no_mob_friendly_fire.config;
 
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.event.AddReloadListenerEvent;
+import world.maryt.no_mob_friendly_fire.NoMobFriendlyFire;
 
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 
 public class ConfigParser {
 
     public static HashMap<ResourceLocation, HashSet<ResourceLocation>> oneSidedFriendlyPairs = new HashMap<>();
 
-    public static void parse(String[] configList) {
+    private static HashSet<String> prepare(String config) {
+        HashSet<String> result = new HashSet<>();
+
+        for (Iterator<String> it = config.lines().iterator(); it.hasNext(); ) {
+            String entry = it.next();
+            String[] split = entry.split(";");
+            if (split.length >= 2 && split.length <= 3) {
+                result.add(entry);
+            }
+        }
+
+        NoMobFriendlyFire.LOGGER.info(result.toString());
+        return result;
+    }
+
+    public static void parse(HashSet<String> configList) {
         for (String ruleEntry: configList) {
             String[] ruleArray = ruleEntry.split(";");
             if (ruleArray.length == 2) {
@@ -69,6 +85,8 @@ public class ConfigParser {
         }
     }
 
+
+    @SuppressWarnings("removal")
     public static ResourceLocation parseResourceLocation(String str) {
         String[] parsed = str.split(":");
         if (parsed.length == 2) {
